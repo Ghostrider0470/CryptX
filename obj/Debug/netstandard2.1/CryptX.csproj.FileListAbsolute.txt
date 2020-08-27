@@ -1,5 +1,0 @@
-C:\Users\hamza\source\repos\CryptX\CryptX\bin\Debug\netstandard2.1\CryptX.deps.json
-C:\Users\hamza\source\repos\CryptX\CryptX\bin\Debug\netstandard2.1\CryptX.dll
-C:\Users\hamza\source\repos\CryptX\CryptX\obj\Debug\netstandard2.1\CryptX.csprojAssemblyReference.cache
-C:\Users\hamza\source\repos\CryptX\CryptX\obj\Debug\netstandard2.1\CryptX.AssemblyInfoInputs.cache
-C:\Users\hamza\source\repos\CryptX\CryptX\obj\Debug\netstandard2.1\CryptX.AssemblyInfo.cs
