@@ -37,17 +37,22 @@ namespace CryptX
     public class CryptXGenerator
     {
         private CryptXConfig _cryptoHashConfig = new CryptXConfig();
+
         private CryptXCharset _cryptoHashCharset = new CryptXCharset();
+
         private Dictionary<CryptXCharsetEnum, char[]> _charDictionary = new Dictionary<CryptXCharsetEnum, char[]>();
 
         private Dictionary<CryptXCharsetEnum, double> probabilities = new Dictionary<CryptXCharsetEnum, double>();
+
+        private byte[] _data = null;
+        private string _key = null;
 
         public CryptXGenerator(
             bool includeLowercase = true,
             bool includeUppercase = true,
             bool includeNumeric = true,
             bool includeSpecial = true,
-            [Range(8, 256)]
+            [Range(6, 128)]
             byte keyLength = 12
         )
         {
@@ -116,13 +121,17 @@ namespace CryptX
                 }
                 probabilities[charSet.Key] = (double)calculatedProbability;
                 calculatedTotal += (double)calculatedProbability;
+                #if DEBUG
                 Console.WriteLine($"{charSet.Key}: {Math.Round((double)calculatedProbability, 2)}%");
+                #endif
             }
-
+            #if DEBUG
             Console.WriteLine($"Total: {Math.Round((double)calculatedTotal, 4)}%");
             Console.WriteLine("###################");
+            #endif
         }
-        public string GenerateUnique()
+
+        public void GenerateUnique()
         {
             CharDictionaryInitialization();
 
@@ -162,9 +171,6 @@ namespace CryptX
 
                 // Last negative bias is set after probabilities were altered
                 SetNegativeBiasProbabilityPenalty(charset, biasValue);
-                
-
-
 
                 var rnd = BitConverter.ToUInt32(data, keyIndex * 4);
                 var idx = rnd % _charDictionary[charset].Length;
@@ -173,7 +179,21 @@ namespace CryptX
                 result.Append(value);
 
             }
-            return result.ToString();
+
+            _data = Encoding.ASCII.GetBytes(result.ToString());
+            _key = result.ToString();
+        }
+        public string GetRawTokenKey()
+        {
+            return _key;
+        }
+        public string Get_UTF8_Encoded_TokenKey()
+        {
+            return Encoding.UTF8.GetString(_data);
+        }
+        public string Get_Base64_Encoded_TokenKey()
+        {
+            return Convert.ToBase64String(_data);
         }
     }
 }
