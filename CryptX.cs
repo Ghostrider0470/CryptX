@@ -71,6 +71,20 @@ namespace CryptX
             set => _configuration.KeyLength = value;
         }
 
+        // Gets the number of the unique characters in the all the charsets combined
+        public int NumberOfUniqueChars
+        {
+            get
+            {
+                List<char> chars = new List<char>();
+                foreach (var charSet in _charDictionary)
+                {
+                    chars.AddRange(charSet.Value.Distinct());
+                }
+
+                return chars.Count;
+            }
+        }
 
         /// <summary>
         /// Returns the number of the included character sets which will be used in key generation
@@ -264,6 +278,10 @@ namespace CryptX
             return Encoding.UTF8.GetString(_data);
         }
         public string Get_Base64_Encoded_Key()
+        {
+            return Convert.ToBase64String(_data);
+        }
+        public string Get_MD5Hash_Encoded_Key()
         {
             return Convert.ToBase64String(_data);
         }
